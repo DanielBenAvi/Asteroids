@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.view.View;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
@@ -179,6 +180,7 @@ public class AsteroidsMainActivity extends AppCompatActivity {
                     if (!gameManager.checkCollision()) {
                         updateTimerUI();
                     } else {
+                        toastMaker("Collision");
                         if (gameManager.getShip().getLife() > 0) {
                             hearts[gameManager.getShip().getLife() - 1].setVisibility(View.INVISIBLE);
                         }
@@ -222,5 +224,12 @@ public class AsteroidsMainActivity extends AppCompatActivity {
             //deprecated in API 26
             v.vibrate(500);
         }
+    }
+
+    private void toastMaker(String text) {
+        Context context = getApplicationContext();
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
     }
 }
