@@ -54,7 +54,7 @@ public class AsteroidsMainActivity extends AppCompatActivity {
            write from here only!!!!
          */
         // ship
-        gameManager = new AsteroidsGameManager();
+        gameManager = new AsteroidsGameManager(board.length, board[0].length);
 //        loadImage(gameManager.getShip().getIMAGE(), board[gameManager.getShip().getY()][gameManager.getShip().getX()]);
 
 
@@ -153,7 +153,7 @@ public class AsteroidsMainActivity extends AppCompatActivity {
         moveShip(0);
 
         if (seconds % 2 == 0) {
-            gameManager.getAsteroids().add(new Asteroid().setX(rand.nextInt(board[0].length)).setY(0));
+            gameManager.getAsteroids().add((Asteroid) new Asteroid().setX(rand.nextInt(board[0].length)).setY(0));
         }
 
     }

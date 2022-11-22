@@ -1,11 +1,9 @@
 package com.example.asteroids;
 
-public class Asteroid {
-    private int x;
-    private int y;
-    private int image;
+public class Asteroid extends Object {
 
     public Asteroid() {
+        super();
         image = R.drawable.asteroid;
     }
 
