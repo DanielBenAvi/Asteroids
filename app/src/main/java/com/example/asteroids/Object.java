@@ -5,6 +5,10 @@ public abstract class Object {
     protected int y;
     protected int image;
 
+    public int getImage() {
+        return image;
+    }
+
     public Object() {
     }
 

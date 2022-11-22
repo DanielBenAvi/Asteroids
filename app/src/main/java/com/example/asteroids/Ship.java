@@ -6,6 +6,7 @@ public class Ship extends Object {
 
     public Ship() {
         super();
+        y = 8;
         image = R.drawable.ship;
     }
 
@@ -23,10 +24,6 @@ public class Ship extends Object {
 
     public int getLife() {
         return life;
-    }
-
-    public int getIMAGE() {
-        return image;
     }
 
     public Ship setX(int x) {

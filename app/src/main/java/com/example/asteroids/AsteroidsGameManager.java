@@ -1,10 +1,8 @@
 package com.example.asteroids;
 
-import java.util.ArrayList;
 
 public class AsteroidsGameManager {
 
-    private ArrayList<Asteroid> asteroids; // old asteroids TODO: remove
     private Ship ship;
     private Object[][] logicBoard;
 
@@ -14,47 +12,41 @@ public class AsteroidsGameManager {
     public AsteroidsGameManager(int rows, int columns) {
         // create the logic board
         logicBoard = new Object[rows][columns];
-        // create the ship y - always in the one before the last row
-        int SHIP_Y = 8;
+
         // create the ship x - always in the middle
-        ship = new Ship().setX(1).setY(SHIP_Y).setLife(3);
+        ship = new Ship().setX(1).setLife(3);
+
         // add the ship to the logic board
-        logicBoard[SHIP_Y][1] = ship;
-        // create the asteroids TODO: remove this
-        asteroids = new ArrayList<>();
+        logicBoard[ship.getY()][1] = ship;
+
     }
 
-    // TODO: remove this
-    public ArrayList<Asteroid> getAsteroids() {
-        return asteroids;
+
+    /**
+     * clear all the asteroids from the logicBoard
+     */
+    public void clearAsteroids() {
+        for (int i = 0; i < logicBoard.length; i++) {
+            for (int j = 0; j < logicBoard[i].length; j++) {
+                if (logicBoard[i][j] instanceof Asteroid) {
+                    logicBoard[i][j] = null;
+                }
+            }
+        }
     }
+
 
     public Ship getShip() {
         return ship;
     }
 
-    /**
-     * check if asteroid collided with space ship
-     *
-     * @return true (collided), false (not collided)
-     */
-    // TODO: fix the collision detection
-    public boolean checkCollision() {
-        for (Asteroid asteroid : asteroids) {
-            if (asteroid.getY() == ship.getY() && ship.getX() == asteroid.getX()) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     /**
      * move all the asteroids down
      *
      * @param boardLength the length of the board
      */
-    // TODO: add collision detection
-    public void moveAsteroidsDown(int boardLength) {
+    public boolean moveAsteroidsDown(int boardLength) {
         // move all asteroids down;
         // if an asteroid reached the bottom of the board, remove it
         // the check is done from the bottom to the top
@@ -63,25 +55,23 @@ public class AsteroidsGameManager {
                 if (logicBoard[i][j] instanceof Asteroid) {
                     // remove the asteroid from the board if it reached the bottom
                     if (i != boardLength - 1) {
-                        // move the asteroid down
+                        // update the asteroid's y position
+                        int tempY = logicBoard[i][j].getY();
+                        // check collision
+                        if (tempY + 1 == ship.getY() && j == ship.getX()) {
+                            return true;
+                        }
+                        logicBoard[i][j].setY(tempY + 1);
+
+                        // move the asteroid down in the logic board
                         logicBoard[i + 1][j] = logicBoard[i][j];
                     }
+
                     logicBoard[i][j] = null;
                 }
             }
         }
-
-        // old way TODO: remove
-        // remove the first one if got to the end
-        if (asteroids.size() == boardLength) {
-            asteroids.remove(asteroids.get(0));
-        }
-        // old way TODO: remove
-        // iterate over the asteroids and move all of them down
-        for (int i = asteroids.size() - 1; i >= 0; i--) {
-            int temp_y = asteroids.get(i).getY() + 1;
-            asteroids.get(i).setY(temp_y);
-        }
+        return false;
     }
 
     /**
@@ -106,5 +96,10 @@ public class AsteroidsGameManager {
 
         //load ship to the board
         logicBoard[ship.getY()][ship.getX()] = ship;
+    }
+
+    // get the logic board
+    public Object[][] getLogicBoard() {
+        return logicBoard;
     }
 }

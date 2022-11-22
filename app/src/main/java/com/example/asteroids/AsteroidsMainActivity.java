@@ -16,7 +16,6 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textview.MaterialTextView;
 
-import java.text.MessageFormat;
 import java.util.Objects;
 import java.util.Random;
 import java.util.Timer;
@@ -32,11 +31,9 @@ public class AsteroidsMainActivity extends AppCompatActivity {
 
     private Timer timer;
     long startTime = 0;
-    private int gameSpeed = 1000;
 
     private ShapeableImageView[][] board;
     private AsteroidsGameManager gameManager;
-
     private ShapeableImageView[] hearts;
 
     @Override
@@ -47,40 +44,30 @@ public class AsteroidsMainActivity extends AppCompatActivity {
         // hide action bar
         Objects.requireNonNull(getSupportActionBar()).hide();
 
+        // find views and set listeners
         findViews();
         buttons();
 
-        /*
-           write from here only!!!!
-         */
-        // ship
+        // create the game manager
         gameManager = new AsteroidsGameManager(board.length, board[0].length);
-//        loadImage(gameManager.getShip().getIMAGE(), board[gameManager.getShip().getY()][gameManager.getShip().getX()]);
 
-
+        // start the game
         startTimer();
 
-    }
-
-
-    private void moveLeft() {
-        moveShip(-1);
-    }
-
-
-    private void moveRight() {
-        moveShip(1);
     }
 
     /**
      * move the ship
      *
-     * @param direction direction – left = (-1), right = (1)
+     * @param direction (1 = right, -1 = left)
      */
-    public void moveShip(int direction) {
-        Glide.with(this).clear(board[gameManager.getShip().getY()][gameManager.getShip().getX()]);
+    private void moveShip(int direction) {
+        // 1) clear the board
+        resetBoard();
+        // 2) move the ship
         gameManager.moveShip(direction);
-        Glide.with(this).load(gameManager.getShip().getIMAGE()).into(board[gameManager.getShip().getY()][gameManager.getShip().getX()]);
+        // 3) update the board
+        updateBoard();
     }
 
     /**
@@ -94,68 +81,84 @@ public class AsteroidsMainActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Move all the asteroids one block down
-     */
-    private void moveAsteroids() {
-        // move all asteroids down
-        gameManager.moveAsteroidsDown(board.length);
-
-        // load all asteroids to the board
-        loadAsteroids();
-    }
 
     /**
      * load all asteroids
      */
-    private void loadAsteroids() {
-        for (Asteroid asteroid : gameManager.getAsteroids()) {
-            if (asteroid.getY() < board.length) {
-                loadImage(asteroid.getIMAGE(), board[asteroid.getY()][asteroid.getX()]);
+    private void updateBoard() {
+        // load the objects to the board from the logic board
+        for (int i = 0; i < gameManager.getLogicBoard().length; i++) {
+            for (int j = 0; j < gameManager.getLogicBoard()[i].length; j++) {
+                // only load the objects that are not null
+                if (gameManager.getLogicBoard()[i][j] != null) {
+                    loadImage(gameManager.getLogicBoard()[i][j].getImage(), board[i][j]);
+                }
             }
         }
+
     }
 
 
-    /**
-     * Replace Glide
-     *
-     * @param image     the image
-     * @param imageView where to put the image
-     */
-    private void loadImage(int image, ShapeableImageView imageView) {
-        Glide.with(this).load(image).into(imageView);
-    }
-
-    /**
-     * all the buttons
-     */
-    private void buttons() {
-        asteroids_BTN_right.setOnClickListener(v -> moveRight());
-        asteroids_BTN_left.setOnClickListener(v -> moveLeft());
-    }
-
-    /**
-     * frames
-     */
     @SuppressLint("DefaultLocale")
-    private void updateTimerUI() {
+    private void gameFrame() {
+        // count the time
         long millis = System.currentTimeMillis() - startTime;
         int seconds = (int) (millis / 1000);
         int minutes = seconds / 60;
         seconds = seconds % 60;
 
+        //print the time
         asteroids_txt_speed.setText(String.format("%02d:%02d", minutes, seconds));
 
+        //check collision
 
         resetBoard();
-        moveAsteroids();
-        moveShip(0);
+        if (!gameManager.moveAsteroidsDown(board.length)) {
+            moveShip(0);
+            updateBoard();
 
-        if (seconds % 2 == 0) {
-            gameManager.getAsteroids().add((Asteroid) new Asteroid().setX(rand.nextInt(board[0].length)).setY(0));
+            // add new asteroid every 2 seconds
+            if (seconds % 2 == 0) {
+                addNewAsteroid();
+            }
+        } else {
+            // toast
+            toastMaker("Collision");
+
+            // vibrate
+            vibration();
+
+            // remove life
+            if (gameManager.getShip().getLife() > 0) {
+                hearts[gameManager.getShip().getLife() - 1].setVisibility(View.INVISIBLE);
+            }
+
+            // reset the board and clear the logic board from asteroids
+            resetBoard();
+            gameManager.clearAsteroids();
+
+            // change the image of the ship to explosion
+            loadImage(gameManager.getShip().getEXPLODE(), board[gameManager.getShip().getY()][gameManager.getShip().getX()]);
+
+            // remove life from the ship
+            gameManager.getShip().setLife(gameManager.getShip().getLife() - 1);
+
+            // reset the game
+            stopTimer();
+            startTimer();
         }
 
+
+    }
+
+    /**
+     * add new asteroid
+     */
+    private void addNewAsteroid() {
+        int i = rand.nextInt(board[0].length);
+        int j = 0;
+        Asteroid tempAsteroid = new Asteroid().setX(i).setY(j);
+        gameManager.getLogicBoard()[j][i] = tempAsteroid;
     }
 
     /**
@@ -166,40 +169,18 @@ public class AsteroidsMainActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * (1) start the timer.
-     * (2) can reset after die.
-     * (3) update the game every frame.
-     */
     private void startTimer() {
         timer = new Timer();
+        int gameSpeed = 500;
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 runOnUiThread(() -> {
-                    if (!gameManager.checkCollision()) {
-                        updateTimerUI();
-                    } else {
-                        toastMaker("Collision");
-                        if (gameManager.getShip().getLife() > 0) {
-                            hearts[gameManager.getShip().getLife() - 1].setVisibility(View.INVISIBLE);
-                        }
-                        vibration();
-                        resetBoard();
-                        gameManager.getAsteroids().clear();
-                        loadImage(gameManager.getShip().getEXPLODE(), board[gameManager.getShip().getY()][gameManager.getShip().getX()]);
-
-                        gameManager.getShip().setLife(gameManager.getShip().getLife() - 1);
-
-
-                        stopTimer();
-                        startTimer();
-                    }
+                    gameFrame();
                 });
             }
         }, gameSpeed, gameSpeed);
         startTime = System.currentTimeMillis();
-
     }
 
 
@@ -231,5 +212,23 @@ public class AsteroidsMainActivity extends AppCompatActivity {
         int duration = Toast.LENGTH_SHORT;
         Toast toast = Toast.makeText(context, text, duration);
         toast.show();
+    }
+
+    /**
+     * Replace Glide
+     *
+     * @param image     the image
+     * @param imageView where to put the image
+     */
+    private void loadImage(int image, ShapeableImageView imageView) {
+        Glide.with(this).load(image).into(imageView);
+    }
+
+    /**
+     * all the buttons
+     */
+    private void buttons() {
+        asteroids_BTN_right.setOnClickListener(v -> moveShip(1));
+        asteroids_BTN_left.setOnClickListener(v -> moveShip(-1));
     }
 }

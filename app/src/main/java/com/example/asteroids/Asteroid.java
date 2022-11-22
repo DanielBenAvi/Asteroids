@@ -16,9 +16,6 @@ public class Asteroid extends Object {
         return y;
     }
 
-    public int getIMAGE() {
-        return image;
-    }
 
     public Asteroid setX(int x) {
         this.x = x;
