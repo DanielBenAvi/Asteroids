@@ -1,10 +1,14 @@
 package com.example.asteroids;
 
 
+import java.util.Random;
+
 public class AsteroidsGameManager {
 
-    private Ship ship;
-    private Object[][] logicBoard;
+    Random rand = new Random();
+
+    private final Ship ship;
+    private final Object[][] logicBoard;
 
     /**
      * Constructor
@@ -79,7 +83,6 @@ public class AsteroidsGameManager {
      *
      * @param direction left (-1), right = (1)
      */
-    // TODO: add collision detection
     public void moveShip(int direction) {
         // remove the ship from the board
         logicBoard[ship.getY()][ship.getX()] = null;
@@ -98,8 +101,21 @@ public class AsteroidsGameManager {
         logicBoard[ship.getY()][ship.getX()] = ship;
     }
 
-    // get the logic board
+    /**
+     * get the logic board
+     * @return logic board
+     */
     public Object[][] getLogicBoard() {
         return logicBoard;
+    }
+
+    /**
+     * add new asteroid
+     */
+    public void addNewAsteroid() {
+        int i = rand.nextInt(logicBoard[0].length);
+        int j = 0;
+        Asteroid tempAsteroid = new Asteroid().setX(i).setY(j);
+        getLogicBoard()[j][i] = tempAsteroid;
     }
 }

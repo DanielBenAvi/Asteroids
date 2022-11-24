@@ -16,8 +16,6 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textview.MaterialTextView;
 
-import java.util.Objects;
-import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -26,8 +24,6 @@ public class AsteroidsMainActivity extends AppCompatActivity {
     private MaterialButton asteroids_BTN_right;
     private MaterialButton asteroids_BTN_left;
     private MaterialTextView asteroids_txt_speed;
-
-    Random rand = new Random();
 
     private Timer timer;
     long startTime = 0;
@@ -41,8 +37,8 @@ public class AsteroidsMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // hide action bar
-        Objects.requireNonNull(getSupportActionBar()).hide();
+//        // hide action bar
+//        Objects.requireNonNull(getSupportActionBar()).hide();
 
         // find views and set listeners
         findViews();
@@ -99,6 +95,9 @@ public class AsteroidsMainActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * what happened every second
+     */
     @SuppressLint("DefaultLocale")
     private void gameFrame() {
         // count the time
@@ -119,11 +118,11 @@ public class AsteroidsMainActivity extends AppCompatActivity {
 
             // add new asteroid every 2 seconds
             if (seconds % 2 == 0) {
-                addNewAsteroid();
+                gameManager.addNewAsteroid();
             }
         } else {
             // toast
-            toastMaker("Collision");
+            toastMaker();
 
             // vibrate
             vibration();
@@ -151,15 +150,6 @@ public class AsteroidsMainActivity extends AppCompatActivity {
 
     }
 
-    /**
-     * add new asteroid
-     */
-    private void addNewAsteroid() {
-        int i = rand.nextInt(board[0].length);
-        int j = 0;
-        Asteroid tempAsteroid = new Asteroid().setX(i).setY(j);
-        gameManager.getLogicBoard()[j][i] = tempAsteroid;
-    }
 
     /**
      * stop the timer
@@ -168,16 +158,16 @@ public class AsteroidsMainActivity extends AppCompatActivity {
         timer.cancel();
     }
 
-
+    /**
+     * start the timer
+     */
     private void startTimer() {
         timer = new Timer();
         int gameSpeed = 500;
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                runOnUiThread(() -> {
-                    gameFrame();
-                });
+                runOnUiThread(() -> gameFrame());
             }
         }, gameSpeed, gameSpeed);
         startTime = System.currentTimeMillis();
@@ -196,7 +186,10 @@ public class AsteroidsMainActivity extends AppCompatActivity {
         hearts = new ShapeableImageView[]{findViewById(R.id.asteroids_IMG_h0), findViewById(R.id.asteroids_IMG_h1), findViewById(R.id.asteroids_IMG_h2)};
     }
 
-
+    /**
+     * vibration
+     *
+     */
     private void vibration() {
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -207,10 +200,13 @@ public class AsteroidsMainActivity extends AppCompatActivity {
         }
     }
 
-    private void toastMaker(String text) {
+    /**
+     * toast maker
+     */
+    private void toastMaker() {
         Context context = getApplicationContext();
         int duration = Toast.LENGTH_SHORT;
-        Toast toast = Toast.makeText(context, text, duration);
+        Toast toast = Toast.makeText(context, "Collision", duration);
         toast.show();
     }
 
