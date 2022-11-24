@@ -2,7 +2,6 @@ package com.example.asteroids;
 
 public class Ship extends Object {
     private int life;
-    private final int EXPLODE = R.drawable.explode;
 
     public Ship() {
         super();
@@ -11,7 +10,7 @@ public class Ship extends Object {
     }
 
     public int getEXPLODE() {
-        return EXPLODE;
+        return R.drawable.explode;
     }
 
     public int getX() {

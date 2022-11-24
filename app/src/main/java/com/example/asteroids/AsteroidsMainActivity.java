@@ -190,6 +190,7 @@ public class AsteroidsMainActivity extends AppCompatActivity {
      * vibration
      *
      */
+    @SuppressLint("ObsoleteSdkInt")
     private void vibration() {
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
