@@ -47,9 +47,21 @@ public class AsteroidsMainActivity extends AppCompatActivity {
         // create the game manager
         gameManager = new AsteroidsGameManager(board.length, board[0].length);
 
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         // start the game
         startTimer();
+    }
 
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        stopTimer();
     }
 
     /**
