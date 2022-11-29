@@ -121,8 +121,6 @@ public class AsteroidsMainActivity extends AppCompatActivity {
         //print the time
         asteroids_txt_speed.setText(String.format("%02d:%02d", minutes, seconds));
 
-        //check collision
-
         resetBoard();
         if (!gameManager.moveAsteroidsDown(board.length)) {
             moveShip(0);
