@@ -1,6 +1,10 @@
 package com.example.asteroids;
 
 
+import com.example.asteroids.Model.Asteroid;
+import com.example.asteroids.Model.Object;
+import com.example.asteroids.Model.Ship;
+
 import java.util.Random;
 
 public class AsteroidsGameManager {
@@ -18,7 +22,8 @@ public class AsteroidsGameManager {
         logicBoard = new Object[rows][columns];
 
         // create the ship x - always in the middle
-        ship = new Ship().setX(1).setLife(3);
+        ship = (Ship) new Ship().setX(logicBoard[0].length / 2);
+        ship.setLife(Constants.SHIP_LIFE);
 
         // add the ship to the logic board
         logicBoard[ship.getY()][1] = ship;
@@ -90,10 +95,10 @@ public class AsteroidsGameManager {
         // move the ship
         int temp_x;
         temp_x = ship.getX() + direction;
-        if (temp_x > 2) {
+        if (temp_x > logicBoard[0].length - 1) {
             temp_x = 0;
         } else if (temp_x < 0) {
-            temp_x = 2;
+            temp_x = logicBoard[0].length - 1;
         }
         ship.setX(temp_x);
 
@@ -103,6 +108,7 @@ public class AsteroidsGameManager {
 
     /**
      * get the logic board
+     *
      * @return logic board
      */
     public Object[][] getLogicBoard() {
@@ -115,7 +121,7 @@ public class AsteroidsGameManager {
     public void addNewAsteroid() {
         int i = rand.nextInt(logicBoard[0].length);
         int j = 0;
-        Asteroid tempAsteroid = new Asteroid().setX(i).setY(j);
+        Asteroid tempAsteroid = (Asteroid) new Asteroid().setX(i).setY(j);
         getLogicBoard()[j][i] = tempAsteroid;
     }
 }

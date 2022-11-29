@@ -1,11 +1,14 @@
-package com.example.asteroids;
+package com.example.asteroids.Model;
+
+import com.example.asteroids.Constants;
+import com.example.asteroids.R;
 
 public class Ship extends Object {
     private int life;
 
     public Ship() {
         super();
-        y = 8;
+        y = Constants.SHIP_Y;
         image = R.drawable.ship;
     }
 
@@ -13,21 +16,8 @@ public class Ship extends Object {
         return R.drawable.explode;
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
     public int getLife() {
         return life;
-    }
-
-    public Ship setX(int x) {
-        this.x = x;
-        return this;
     }
 
     public Ship setLife(int life) {
@@ -35,8 +25,4 @@ public class Ship extends Object {
         return this;
     }
 
-    public Ship setY(int y) {
-        this.y = y;
-        return this;
-    }
 }

@@ -1,15 +1,17 @@
-package com.example.asteroids;
+package com.example.asteroids.Model;
 
-public abstract class Object {
+public class Object {
     protected int x;
     protected int y;
     protected int image;
 
-    public int getImage() {
-        return image;
-    }
 
     public Object() {
+    }
+
+
+    public int getImage() {
+        return image;
     }
 
     public int getX() {

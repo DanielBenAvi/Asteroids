@@ -37,9 +37,6 @@ public class AsteroidsMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        // hide action bar
-//        Objects.requireNonNull(getSupportActionBar()).hide();
-
         // find views and set listeners
         findViews();
         buttons();
@@ -123,11 +120,11 @@ public class AsteroidsMainActivity extends AppCompatActivity {
 
         resetBoard();
         if (!gameManager.moveAsteroidsDown(board.length)) {
-            moveShip(0);
+            moveShip(Constants.Direction.MIDDLE.value);
             updateBoard();
 
             // add new asteroid every 2 seconds
-            if (seconds % 2 == 0) {
+            if (seconds % Constants.ASTEROID_TIME_CREATION == 0) {
                 gameManager.addNewAsteroid();
             }
         } else {
@@ -173,7 +170,7 @@ public class AsteroidsMainActivity extends AppCompatActivity {
      */
     private void startTimer() {
         timer = new Timer();
-        int gameSpeed = 500;
+        int gameSpeed = Constants.GAME_SPEED;
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -198,16 +195,15 @@ public class AsteroidsMainActivity extends AppCompatActivity {
 
     /**
      * vibration
-     *
      */
     @SuppressLint("ObsoleteSdkInt")
     private void vibration() {
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            v.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
+            v.vibrate(VibrationEffect.createOneShot(Constants.VIBRATION_SPEED, VibrationEffect.DEFAULT_AMPLITUDE));
         } else {
             //deprecated in API 26
-            v.vibrate(500);
+            v.vibrate(Constants.VIBRATION_SPEED);
         }
     }
 
@@ -235,7 +231,7 @@ public class AsteroidsMainActivity extends AppCompatActivity {
      * all the buttons
      */
     private void buttons() {
-        asteroids_BTN_right.setOnClickListener(v -> moveShip(1));
-        asteroids_BTN_left.setOnClickListener(v -> moveShip(-1));
+        asteroids_BTN_right.setOnClickListener(v -> moveShip(Constants.Direction.RIGHT.value));
+        asteroids_BTN_left.setOnClickListener(v -> moveShip(Constants.Direction.LEFT.value));
     }
 }
