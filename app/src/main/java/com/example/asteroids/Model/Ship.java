@@ -1,6 +1,6 @@
 package com.example.asteroids.Model;
 
-import com.example.asteroids.Constants;
+import com.example.asteroids.Other.Constants;
 import com.example.asteroids.R;
 
 public class Ship extends Object {

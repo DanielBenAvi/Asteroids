@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:orientation="vertical"
+    tools:context=".Activities.StartMenuActivity">
+
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/startMenu_TXT_title"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        android:layout_weight="3"
+        android:fontFamily="casual"
+        android:gravity="center"
+        android:text="@string/app_name"
+        android:textAlignment="center"
+        android:textColor="@color/yellow"
+        android:textSize="60sp"
+        android:textStyle="bold" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/startMenu_BTN_startGame"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        android:layout_weight="1"
+        android:backgroundTint="@color/black"
+        android:fontFamily="casual"
+        android:text="@string/start_game"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/startMenu_BTN_scores"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        android:layout_weight="1"
+        android:backgroundTint="@color/black"
+        android:fontFamily="casual"
+        android:text="@string/scores"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/startMenu_SWITCH_gameOptions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:fontFamily="casual"
+        android:padding="20dp"
+        android:text="@string/buttons_device_motion"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:thumbTint="@color/yellow"
+        app:trackTint="@color/white" />
+
+</LinearLayout>
