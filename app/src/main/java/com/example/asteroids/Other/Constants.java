@@ -1,5 +1,9 @@
 package com.example.asteroids.Other;
 
+import com.example.asteroids.Model.User;
+
+import java.util.ArrayList;
+
 public class Constants {
     public static final int SHIP_Y = 8;
     public static final int ASTEROID_TIME_CREATION = 2;
@@ -35,6 +39,9 @@ public class Constants {
             this.value = i;
         }
     }
+
+
+    public static ArrayList<User> users = new ArrayList<>();
 
 
 }
