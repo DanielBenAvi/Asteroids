@@ -29,6 +29,12 @@
         android:layout_height="0dp"
         android:layout_weight="3" />
 
+    <FrameLayout
+        android:id="@+id/scoreMenu_FRAME_map"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3" />
+
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/scoreMenu_TXT_score"
@@ -54,8 +60,8 @@
             android:fontFamily="casual"
             android:hint="Enter your name"
             android:textAlignment="center"
-            android:textColorHint="@color/white"
             android:textColor="@color/white"
+            android:textColorHint="@color/white"
             android:textSize="20sp"
             android:textStyle="bold" />
 

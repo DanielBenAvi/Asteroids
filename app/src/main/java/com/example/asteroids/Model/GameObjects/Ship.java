@@ -1,4 +1,4 @@
-package com.example.asteroids.Model;
+package com.example.asteroids.Model.GameObjects;
 
 import com.example.asteroids.Other.Constants;
 import com.example.asteroids.R;

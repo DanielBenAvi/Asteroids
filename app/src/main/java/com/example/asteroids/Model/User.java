@@ -1,10 +1,12 @@
 package com.example.asteroids.Model;
 
+import androidx.annotation.NonNull;
+
 public class User {
-    private String name= "";
+    private String name = "";
     private int score = 0;
-    private float latitude = 0.0f;
-    private float longitude = 0.0f;
+    private double latitude = 0.0;
+    private double longitude = 0.0;
 
     public User() {
     }
@@ -27,21 +29,25 @@ public class User {
         return this;
     }
 
-    public float getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public User setLatitude(float latitude) {
+    public User setLatitude(double latitude) {
         this.latitude = latitude;
         return this;
     }
 
-    public float getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public User setLongitude(float longitude) {
+    public User setLongitude(double longitude) {
         this.longitude = longitude;
         return this;
     }
+
+
+
+
 }

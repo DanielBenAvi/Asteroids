@@ -1,4 +1,4 @@
-package com.example.asteroids.Model;
+package com.example.asteroids.Model.GameObjects;
 
 public class Object {
     protected int x;

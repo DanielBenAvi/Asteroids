@@ -1,9 +1,11 @@
 package com.example.asteroids.Model;
 
 
-import com.example.asteroids.Activities.AsteroidsMainActivity;
+import com.example.asteroids.Model.GameObjects.Asteroid;
+import com.example.asteroids.Model.GameObjects.Fuel;
+import com.example.asteroids.Model.GameObjects.Object;
+import com.example.asteroids.Model.GameObjects.Ship;
 import com.example.asteroids.Other.Constants;
-import com.google.gson.Gson;
 
 import java.util.Random;
 
