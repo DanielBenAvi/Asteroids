@@ -7,9 +7,14 @@ import android.widget.CompoundButton;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
+import com.example.asteroids.Model.MyDB;
+import com.example.asteroids.Model.MySharedPreferences;
 import com.example.asteroids.Other.App;
 import com.example.asteroids.R;
 import com.google.android.material.button.MaterialButton;
+import com.google.gson.Gson;
+
+import es.dmoral.toasty.Toasty;
 
 public class StartMenuActivity extends AppCompatActivity {
 
@@ -22,6 +27,9 @@ public class StartMenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_menu);
+
+        MyDB.initDB();
+        MySharedPreferences.initSharedPreferences(this);
 
         findViews();
         buttonsListeners();
@@ -48,10 +56,10 @@ public class StartMenuActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     App.gameOption = App.GameOptions.ACCELEROMETER.value;
-                    App.toastMaker(StartMenuActivity.this, "Accelerometer");
+                    Toasty.info(StartMenuActivity.this, "Accelerometer", Toasty.LENGTH_SHORT).show();
                 } else {
                     App.gameOption = App.GameOptions.BUTTONS.value;
-                    App.toastMaker(StartMenuActivity.this, "Buttons");
+                    Toasty.info(StartMenuActivity.this, "Buttons", Toasty.LENGTH_SHORT).show();
                 }
             }
 
@@ -63,10 +71,10 @@ public class StartMenuActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (!isChecked) {
                     App.gameSpeed = 1000;
-                    App.toastMaker(StartMenuActivity.this, "Slow");
+                    Toasty.info(StartMenuActivity.this, "Slow", Toasty.LENGTH_SHORT).show();
                 } else {
                     App.gameSpeed = 500;
-                    App.toastMaker(StartMenuActivity.this, "Fast");
+                    Toasty.info(StartMenuActivity.this, "Fast", Toasty.LENGTH_SHORT).show();
                 }
             }
         });

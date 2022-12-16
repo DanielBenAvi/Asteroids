@@ -25,7 +25,6 @@ import com.example.asteroids.Interfaces.CallBack_userProtocol;
 import com.example.asteroids.Model.MyDB;
 import com.example.asteroids.Model.MySharedPreferences;
 import com.example.asteroids.Model.User;
-import com.example.asteroids.Other.App;
 import com.example.asteroids.R;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
@@ -65,6 +64,7 @@ public class ScoreActivity extends AppCompatActivity {
     private LocationRequest locationRequest;
     private double latitude;
     private double longitude;
+    private static MyDB myDB;
 
 
     @Override
@@ -75,9 +75,9 @@ public class ScoreActivity extends AppCompatActivity {
         findViews();
         setScore();
 
-        App.myDB = MyDB.getInstance();
-        loadDB();
-        updateDB();
+        myDB = MyDB.getInstance();
+        loadDB(ScoreActivity.this);
+
 
         listFragment = new ListFragment();
         listFragment.setCallback(callBack_userProtocol);
@@ -99,33 +99,41 @@ public class ScoreActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * load the database from the shared preferences
+     *
+     * @param context the context
+     */
+    public static void loadDB(Context context) {
+        String fromJSON = MySharedPreferences.getInstance(context).getString(MySharedPreferences.KEY_USERS, "");
+        myDB = new Gson().fromJson(fromJSON, MyDB.class);
+
+
+    }
+
+    /**
+     * save the database to the shared preferences
+     *
+     * @param context the context
+     */
+    public static void updateDB(Context context) {
+        String gson = new Gson().toJson(myDB);
+        MySharedPreferences.getInstance(context).putString(MySharedPreferences.KEY_USERS, gson);
+    }
+
     @Override
     protected void onStop() {
         super.onStop();
-        updateDB();
+        updateDB(ScoreActivity.this);
     }
 
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        updateDB();
+        updateDB(ScoreActivity.this);
     }
 
-    /**
-     * This method is responsible for the database manager
-     */
-    private void loadDB() {
-        String fromJSON = MySharedPreferences.getInstance(this).getString(MySharedPreferences.KEY_USERS, "");
-        App.myDB = new Gson().fromJson(fromJSON, MyDB.class);
-
-
-    }
-
-    private void updateDB() {
-        String gson = new Gson().toJson(App.myDB);
-        MySharedPreferences.getInstance(this).putString(MySharedPreferences.KEY_USERS, gson);
-    }
 
     /**
      * This method is responsible for the buttons listeners
@@ -170,7 +178,7 @@ public class ScoreActivity extends AppCompatActivity {
             user.setScore(score);
             user.setLatitude(latitude);
             user.setLongitude(longitude);
-            updateDB();
+            updateDB(ScoreActivity.this);
 
 
             listFragment.addScore(user);
@@ -187,7 +195,7 @@ public class ScoreActivity extends AppCompatActivity {
     private void openMenuActivity() {
         Intent menuActivity = new Intent(this, StartMenuActivity.class);
         startActivity(menuActivity);
-        updateDB();
+        updateDB(ScoreActivity.this);
         finish();
     }
 
