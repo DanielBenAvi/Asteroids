@@ -61,7 +61,7 @@ public class StartMenuActivity extends AppCompatActivity {
         startMenu_SWITCH_gameSpeed.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
+                if (!isChecked) {
                     App.gameSpeed = 1000;
                     App.toastMaker(StartMenuActivity.this, "Slow");
                 } else {
