@@ -22,7 +22,10 @@ import androidx.core.app.ActivityCompat;
 import com.example.asteroids.Fragments.ListFragment;
 import com.example.asteroids.Fragments.MapFragment;
 import com.example.asteroids.Interfaces.CallBack_userProtocol;
+import com.example.asteroids.Model.MyDB;
+import com.example.asteroids.Model.MySharedPreferences;
 import com.example.asteroids.Model.User;
+import com.example.asteroids.Other.App;
 import com.example.asteroids.R;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
@@ -38,8 +41,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
-
-import es.dmoral.toasty.Toasty;
+import com.google.gson.Gson;
 
 
 public class ScoreActivity extends AppCompatActivity {
@@ -73,6 +75,9 @@ public class ScoreActivity extends AppCompatActivity {
         findViews();
         setScore();
 
+        App.myDB = MyDB.getInstance();
+        loadDB();
+        updateDB();
 
         listFragment = new ListFragment();
         listFragment.setCallback(callBack_userProtocol);
@@ -91,8 +96,40 @@ public class ScoreActivity extends AppCompatActivity {
         locationRequest.setInterval(5000);
         locationRequest.setFastestInterval(2000);
 
+
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        updateDB();
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        updateDB();
+    }
+
+    /**
+     * This method is responsible for the database manager
+     */
+    private void loadDB() {
+        String fromJSON = MySharedPreferences.getInstance(this).getString(MySharedPreferences.KEY_USERS, "");
+        App.myDB = new Gson().fromJson(fromJSON, MyDB.class);
+
+
+    }
+
+    private void updateDB() {
+        String gson = new Gson().toJson(App.myDB);
+        MySharedPreferences.getInstance(this).putString(MySharedPreferences.KEY_USERS, gson);
+    }
+
+    /**
+     * This method is responsible for the buttons listeners
+     */
     CallBack_userProtocol callBack_userProtocol = new CallBack_userProtocol() {
         @Override
         public void changeLocation(double latitude, double longitude) {
@@ -100,7 +137,9 @@ public class ScoreActivity extends AppCompatActivity {
         }
     };
 
-
+    /**
+     * This method is responsible for the buttons listeners
+     */
     @SuppressLint("SetTextI18n")
     private void setScore() {
         Intent intent = getIntent();
@@ -113,6 +152,9 @@ public class ScoreActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * This method is responsible for the buttons listeners
+     */
     private void buttonsListeners() {
         scoreMenu_BTN_addScore.setOnClickListener(v -> {
             getCurrentLocation();
@@ -128,6 +170,9 @@ public class ScoreActivity extends AppCompatActivity {
             user.setScore(score);
             user.setLatitude(latitude);
             user.setLongitude(longitude);
+            updateDB();
+
+
             listFragment.addScore(user);
             scoreMenu_LAY_addScore.setVisibility(View.GONE);
             scoreMenu_TXT_score.setVisibility(View.GONE);
@@ -138,9 +183,11 @@ public class ScoreActivity extends AppCompatActivity {
         scoreMenu_BTN_StartGame.setOnClickListener(v -> openMenuActivity());
     }
 
+
     private void openMenuActivity() {
         Intent menuActivity = new Intent(this, StartMenuActivity.class);
         startActivity(menuActivity);
+        updateDB();
         finish();
     }
 
@@ -208,8 +255,6 @@ public class ScoreActivity extends AppCompatActivity {
                                 latitude = locationResult.getLocations().get(index).getLatitude();
                                 longitude = locationResult.getLocations().get(index).getLongitude();
 
-
-//                                Toasty.success(ScoreActivity.this, "Latitude: " + latitude + "\n" + "Longitude: " + longitude, 100).show();
                             }
                         }
                     }, Looper.getMainLooper());
@@ -238,7 +283,6 @@ public class ScoreActivity extends AppCompatActivity {
 
                 try {
                     LocationSettingsResponse response = task.getResult(ApiException.class);
-                    Toasty.success(ScoreActivity.this, "GPS is already tured on", 100).show();
 
                 } catch (ApiException e) {
 
@@ -267,9 +311,7 @@ public class ScoreActivity extends AppCompatActivity {
         LocationManager locationManager = null;
         boolean isEnabled = false;
 
-        if (locationManager == null) {
-            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        }
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         isEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         return isEnabled;

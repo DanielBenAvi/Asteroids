@@ -1,10 +1,13 @@
 package com.example.asteroids.Model.GameObjects;
 
+import android.content.Context;
+
+import es.dmoral.toasty.Toasty;
+
 public class Object {
     protected int x;
     protected int y;
     protected int image;
-
 
     public Object() {
     }
@@ -31,6 +34,8 @@ public class Object {
         this.y = y;
         return this;
     }
+
+
 
 
 }

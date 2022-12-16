@@ -5,7 +5,7 @@ import com.example.asteroids.Model.GameObjects.Asteroid;
 import com.example.asteroids.Model.GameObjects.Fuel;
 import com.example.asteroids.Model.GameObjects.Object;
 import com.example.asteroids.Model.GameObjects.Ship;
-import com.example.asteroids.Other.Constants;
+import com.example.asteroids.Other.App;
 
 import java.util.Random;
 
@@ -25,7 +25,7 @@ public class AsteroidsGameManager {
 
         // create the ship x - always in the middle
         ship = (Ship) new Ship().setX(logicBoard[0].length / 2);
-        ship.setLife(Constants.SHIP_LIFE);
+        ship.setLife(App.SHIP_LIFE);
     }
 
 

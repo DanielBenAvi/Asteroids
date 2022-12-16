@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -14,13 +13,10 @@ import androidx.fragment.app.Fragment;
 import com.example.asteroids.Adapters.ListAdapter;
 import com.example.asteroids.Interfaces.CallBack_userProtocol;
 import com.example.asteroids.Model.User;
-import com.example.asteroids.Other.Constants;
+import com.example.asteroids.Other.App;
 import com.example.asteroids.R;
 
 import java.util.ArrayList;
-import java.util.Collection;
-
-import es.dmoral.toasty.Toasty;
 
 
 public class ListFragment extends Fragment {
@@ -41,8 +37,8 @@ public class ListFragment extends Fragment {
         findViews(view);
 
 
-        Constants.users = getTop10Users(Constants.users);
-        listAdapter = new ListAdapter(getContext(), R.layout.list_item, Constants.users);
+        App.myDB.setUsers(getTop10Users(App.myDB.getUsers()));
+        listAdapter = new ListAdapter(getContext(), R.layout.list_item, App.myDB.getUsers());
         fragmentList_listView_scores.setAdapter(listAdapter);
 
         fragmentList_listView_scores.setOnItemClickListener((parent, view1, position, id) -> {
@@ -59,9 +55,9 @@ public class ListFragment extends Fragment {
     }
 
     public void addScore(User user) {
-        Constants.users.add(user);
+        App.myDB.getUsers().add(user);
         // sort users by score
-        Constants.users = getTop10Users(Constants.users);
+        App.myDB.setUsers(getTop10Users(App.myDB.getUsers()));
 
         listAdapter.notifyDataSetChanged();
     }
@@ -69,7 +65,7 @@ public class ListFragment extends Fragment {
     // method to get list of users sort it and trim it to 10 users
     public ArrayList<User> getTop10Users(ArrayList<User> users) {
         users.sort((o1, o2) -> o2.getScore() - o1.getScore());
-        if (Constants.users.size() > 10) {
+        if (App.myDB.getUsers().size() > 10) {
             ArrayList<User> tmp = new ArrayList<>();
             for (int i = 0; i < 10; i++) {
                 tmp.add(users.get(i));

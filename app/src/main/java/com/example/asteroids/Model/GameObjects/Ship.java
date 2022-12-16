@@ -1,6 +1,6 @@
 package com.example.asteroids.Model.GameObjects;
 
-import com.example.asteroids.Other.Constants;
+import com.example.asteroids.Other.App;
 import com.example.asteroids.R;
 
 public class Ship extends Object {
@@ -8,7 +8,7 @@ public class Ship extends Object {
 
     public Ship() {
         super();
-        y = Constants.SHIP_Y;
+        y = App.SHIP_Y;
         image = R.drawable.ship;
     }
 

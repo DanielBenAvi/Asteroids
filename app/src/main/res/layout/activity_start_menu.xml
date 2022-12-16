@@ -63,4 +63,17 @@
         app:thumbTint="@color/yellow"
         app:trackTint="@color/white" />
 
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/startMenu_SWITCH_gameSpeed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:fontFamily="casual"
+        android:padding="20dp"
+        android:text="Slow / Fast"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:thumbTint="@color/yellow"
+        app:trackTint="@color/white" />
+
 </LinearLayout>
