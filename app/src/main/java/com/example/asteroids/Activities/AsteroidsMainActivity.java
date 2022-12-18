@@ -173,6 +173,7 @@ public class AsteroidsMainActivity extends AppCompatActivity implements SensorEv
     private void collisionMovement() {
 
         App.difficulty = App.DIFFICULTY_DEFAULT;
+
         // toast
         toastMaker();
 
@@ -340,6 +341,9 @@ public class AsteroidsMainActivity extends AppCompatActivity implements SensorEv
         }
     }
 
+    /**
+     * Move ship
+     */
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (App.gameOption != App.GameOptions.ACCELEROMETER.value) {
@@ -353,7 +357,6 @@ public class AsteroidsMainActivity extends AppCompatActivity implements SensorEv
         if (currentTimeMillis - timeStemp < 500) {
             return;
         }
-
 
         timeStemp = currentTimeMillis;
         float x = event.values[0];

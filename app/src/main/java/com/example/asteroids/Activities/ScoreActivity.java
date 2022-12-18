@@ -108,7 +108,6 @@ public class ScoreActivity extends AppCompatActivity {
         String fromJSON = MySharedPreferences.getInstance(context).getString(MySharedPreferences.KEY_USERS, "");
         myDB = new Gson().fromJson(fromJSON, MyDB.class);
 
-
     }
 
     /**
