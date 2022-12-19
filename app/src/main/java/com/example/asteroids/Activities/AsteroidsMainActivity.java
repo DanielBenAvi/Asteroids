@@ -18,7 +18,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.asteroids.Model.AsteroidsGameManager;
-import com.example.asteroids.Other.App;
+import com.example.asteroids.Model.User;
+import com.example.asteroids.Other.Constants;
 import com.example.asteroids.R;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.imageview.ShapeableImageView;
@@ -33,6 +34,12 @@ public class AsteroidsMainActivity extends AppCompatActivity implements SensorEv
 
     private SensorManager sensorManager;
     private Sensor sensor;
+
+    public static final String KEY_NAME = "KEY_NAME";
+    public static final String KEY_LONGITUDE = "KEY_LONGITUDE";
+    public static final String KEY_LATITUDE = "KEY_LATITUDE";
+    private String userName = "";
+
 
     private MaterialButton asteroids_BTN_right;
     private MaterialButton asteroids_BTN_left;
@@ -55,7 +62,11 @@ public class AsteroidsMainActivity extends AppCompatActivity implements SensorEv
         findViews();
         buttons();
 
-        if (App.gameOption == App.GameOptions.ACCELEROMETER.value) {
+        // get user name
+        userName = getIntent().getStringExtra(KEY_NAME);
+
+
+        if (Constants.gameOption == Constants.GameOptions.ACCELEROMETER.value) {
             sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
             sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
             sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL);
@@ -64,10 +75,9 @@ public class AsteroidsMainActivity extends AppCompatActivity implements SensorEv
         // create the game manager
         gameManager = new AsteroidsGameManager(board.length, board[0].length);
 
-        App.difficulty = App.DIFFICULTY_DEFAULT;
+        Constants.difficulty = Constants.DIFFICULTY_DEFAULT;
 
         // Move detector
-
     }
 
 
@@ -135,7 +145,7 @@ public class AsteroidsMainActivity extends AppCompatActivity implements SensorEv
      */
     @SuppressLint("DefaultLocale")
     private void gameFrame() {
-        moveShip(App.Direction.MIDDLE.value);
+        moveShip(Constants.Direction.MIDDLE.value);
 
 
         // count the time
@@ -144,7 +154,7 @@ public class AsteroidsMainActivity extends AppCompatActivity implements SensorEv
         seconds %= 60;
 
         //print the time
-        asteroids_txt_speed.setText(String.format("SCORE: %02d", App.gameScore));
+        asteroids_txt_speed.setText(String.format("SCORE: %02d", Constants.gameScore));
 
         resetBoard();
         // check if the ship is alive
@@ -156,7 +166,7 @@ public class AsteroidsMainActivity extends AppCompatActivity implements SensorEv
 
         // collision handling
         if (result >= 0) {
-            App.gameScore += result;
+            Constants.gameScore += result;
             if (result > 0) {
                 makeSound(R.raw.ding_sound);
             }
@@ -172,7 +182,7 @@ public class AsteroidsMainActivity extends AppCompatActivity implements SensorEv
      */
     private void collisionMovement() {
 
-        App.difficulty = App.DIFFICULTY_DEFAULT;
+        Constants.difficulty = Constants.DIFFICULTY_DEFAULT;
 
         // toast
         toastMaker();
@@ -186,8 +196,8 @@ public class AsteroidsMainActivity extends AppCompatActivity implements SensorEv
             hearts[gameManager.getShip().getLife() - 1].setVisibility(View.INVISIBLE);
         } else {
             makeSound(R.raw.game_over);
-            App.gameOption = App.GameOptions.BUTTONS.value;
-            openScoreActivity(App.gameScore);
+            Constants.gameOption = Constants.GameOptions.BUTTONS.value;
+            openScoreActivity(Constants.gameScore);
         }
         // reset the board and clear the logic board from asteroids
         resetBoard();
@@ -213,20 +223,20 @@ public class AsteroidsMainActivity extends AppCompatActivity implements SensorEv
      */
     private void regularMovement(int seconds) {
 
-        moveShip(App.Direction.MIDDLE.value);
+        moveShip(Constants.Direction.MIDDLE.value);
 
         updateBoard();
 
         // add new asteroid every 2 seconds
-        if (seconds % App.ASTEROID_TIME_CREATION == 0) {
-            int random = (int) (Math.random() * (board[0].length - App.difficulty)) + 1;
+        if (seconds % Constants.ASTEROID_TIME_CREATION == 0) {
+            int random = (int) (Math.random() * (board[0].length - Constants.difficulty)) + 1;
             for (int i = 0; i < random; i++) {
                 gameManager.addNewAsteroid();
             }
         }
 
         // add new Fuel every 3 seconds
-        if (seconds % App.FUEL_TIME_CREATION == 0) {
+        if (seconds % Constants.FUEL_TIME_CREATION == 0) {
             gameManager.addNewFuel();
         }
     }
@@ -238,9 +248,9 @@ public class AsteroidsMainActivity extends AppCompatActivity implements SensorEv
      * @param s the score
      */
     private void openScoreActivity(int s) {
-        App.gameScore = 0;
+        addUser();
+        Constants.gameScore = 0;
         Intent scoreIntent = new Intent(this, ScoreActivity.class);
-        scoreIntent.putExtra(ScoreActivity.KEY_SCORE, s);
         startActivity(scoreIntent);
         finish();
     }
@@ -257,13 +267,13 @@ public class AsteroidsMainActivity extends AppCompatActivity implements SensorEv
      */
     private void startTimer() {
         timer = new Timer();
-        int gameSpeed = App.gameSpeed;
+        int gameSpeed = Constants.gameSpeed;
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 runOnUiThread(() -> gameFrame());
             }
-        }, App.gameSpeed, App.gameSpeed);
+        }, Constants.gameSpeed, Constants.gameSpeed);
         startTime = System.currentTimeMillis();
     }
 
@@ -280,7 +290,7 @@ public class AsteroidsMainActivity extends AppCompatActivity implements SensorEv
 
         hearts = new ShapeableImageView[]{findViewById(R.id.asteroids_IMG_h0), findViewById(R.id.asteroids_IMG_h1), findViewById(R.id.asteroids_IMG_h2)};
 
-        if (App.gameOption == App.GameOptions.BUTTONS.value) {
+        if (Constants.gameOption == Constants.GameOptions.BUTTONS.value) {
             asteroids_BTN_right.setVisibility(View.VISIBLE);
             asteroids_BTN_left.setVisibility(View.VISIBLE);
         } else {
@@ -306,10 +316,10 @@ public class AsteroidsMainActivity extends AppCompatActivity implements SensorEv
     private void vibration() {
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            v.vibrate(VibrationEffect.createOneShot(App.VIBRATION_SPEED, VibrationEffect.DEFAULT_AMPLITUDE));
+            v.vibrate(VibrationEffect.createOneShot(Constants.VIBRATION_SPEED, VibrationEffect.DEFAULT_AMPLITUDE));
         } else {
             //deprecated in API 26
-            v.vibrate(App.VIBRATION_SPEED);
+            v.vibrate(Constants.VIBRATION_SPEED);
         }
     }
 
@@ -335,9 +345,9 @@ public class AsteroidsMainActivity extends AppCompatActivity implements SensorEv
      * all the buttons
      */
     private void buttons() {
-        if (App.gameOption == App.GameOptions.BUTTONS.value) {
-            asteroids_BTN_right.setOnClickListener(v -> moveShip(App.Direction.RIGHT.value));
-            asteroids_BTN_left.setOnClickListener(v -> moveShip(App.Direction.LEFT.value));
+        if (Constants.gameOption == Constants.GameOptions.BUTTONS.value) {
+            asteroids_BTN_right.setOnClickListener(v -> moveShip(Constants.Direction.RIGHT.value));
+            asteroids_BTN_left.setOnClickListener(v -> moveShip(Constants.Direction.LEFT.value));
         }
     }
 
@@ -346,7 +356,7 @@ public class AsteroidsMainActivity extends AppCompatActivity implements SensorEv
      */
     @Override
     public void onSensorChanged(SensorEvent event) {
-        if (App.gameOption != App.GameOptions.ACCELEROMETER.value) {
+        if (Constants.gameOption != Constants.GameOptions.ACCELEROMETER.value) {
             return;
         }
         if (event.sensor.getType() != Sensor.TYPE_ACCELEROMETER) {
@@ -360,10 +370,10 @@ public class AsteroidsMainActivity extends AppCompatActivity implements SensorEv
 
         timeStemp = currentTimeMillis;
         float x = event.values[0];
-        if (x > App.MOVEMENT_VALUE) {
-            moveShip(App.Direction.LEFT.value);
-        } else if (x < -App.MOVEMENT_VALUE) {
-            moveShip(App.Direction.RIGHT.value);
+        if (x > Constants.MOVEMENT_VALUE) {
+            moveShip(Constants.Direction.LEFT.value);
+        } else if (x < -Constants.MOVEMENT_VALUE) {
+            moveShip(Constants.Direction.RIGHT.value);
         }
 
 
@@ -374,4 +384,18 @@ public class AsteroidsMainActivity extends AppCompatActivity implements SensorEv
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
     }
+
+
+    private void addUser() {
+        Intent intent = getIntent();
+        User user = new User();
+        user.setName(intent.getStringExtra(KEY_NAME));
+        user.setScore(Constants.gameScore);
+        user.setLatitude(intent.getDoubleExtra(KEY_LATITUDE, 0));
+        user.setLongitude(intent.getDoubleExtra(KEY_LONGITUDE, 0));
+
+        gameManager.addUser(user);
+    }
+
+
 }

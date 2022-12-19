@@ -3,10 +3,11 @@ package com.example.asteroids.Model;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.example.asteroids.Other.Constants;
 
-public class MySharedPreferences {
-    public static final String KEY_USERS = "my_prefs";
-    private static MySharedPreferences instance;
+
+public class MySP {
+    private static MySP mySharedPreferences = null;
     private final SharedPreferences sharedPreferences;
 
 
@@ -15,18 +16,17 @@ public class MySharedPreferences {
      *
      * @param context the context
      */
-    private MySharedPreferences(Context context) {
-        sharedPreferences = context.getSharedPreferences(KEY_USERS, Context.MODE_PRIVATE);
+    private MySP(Context context) {
+        sharedPreferences = context.getSharedPreferences(Constants.SP_KEY, Context.MODE_PRIVATE);
     }
 
     /**
      * Gets instance.
      *
-     * @param context the context
      * @return the instance
      */
-    public static MySharedPreferences getInstance(Context context) {
-        return instance;
+    public static MySP getInstance() {
+        return mySharedPreferences;
     }
 
     /**
@@ -35,19 +35,11 @@ public class MySharedPreferences {
      * @param context the context
      */
     public static void initSharedPreferences(Context context) {
-        if (instance == null) {
-            instance = new MySharedPreferences(context);
+        if (mySharedPreferences == null) {
+            mySharedPreferences = new MySP(context);
         }
     }
 
-    /**
-     * getter
-     *
-     * @return the shared preferences
-     */
-    public SharedPreferences getSharedPreferences() {
-        return sharedPreferences;
-    }
 
 
     /**

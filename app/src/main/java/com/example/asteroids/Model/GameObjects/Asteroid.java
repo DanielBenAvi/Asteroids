@@ -1,12 +1,12 @@
 package com.example.asteroids.Model.GameObjects;
 
-import com.example.asteroids.Other.App;
+import com.example.asteroids.Other.Constants;
 
 public class Asteroid extends Object {
 
     public Asteroid() {
         super();
-        image = App.asteroids[getRandomNumber()];
+        image = Constants.asteroids[getRandomNumber()];
 
     }
 

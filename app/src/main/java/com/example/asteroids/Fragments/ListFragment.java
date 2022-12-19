@@ -10,14 +10,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.asteroids.Activities.ScoreActivity;
 import com.example.asteroids.Adapters.ListAdapter;
 import com.example.asteroids.Interfaces.CallBack_userProtocol;
 import com.example.asteroids.Model.MyDB;
+import com.example.asteroids.Model.MySP;
 import com.example.asteroids.Model.User;
+import com.example.asteroids.Other.Constants;
 import com.example.asteroids.R;
-
-import java.util.ArrayList;
+import com.google.gson.Gson;
 
 
 public class ListFragment extends Fragment {
@@ -30,9 +30,6 @@ public class ListFragment extends Fragment {
     private CallBack_userProtocol callback;
 
 
-    MyDB myDB;
-
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -40,14 +37,13 @@ public class ListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         findViews(view);
 
-        myDB = MyDB.getInstance();
-        if (myDB == null) {
-            MyDB.initDB();
-        }
-        ArrayList<User> tmp = myDB.getUsers();
 
-        listAdapter = new ListAdapter(getContext(), R.layout.list_item, tmp);
-        fragmentList_listView_scores.setAdapter(listAdapter);
+        String json = MySP.getInstance().getString(Constants.SP_KEY, "");
+        MyDB myDB = new Gson().fromJson(json, MyDB.class);
+        if (myDB != null) {
+            listAdapter = new ListAdapter(getContext(), R.layout.list_item, myDB.getUsers());
+            fragmentList_listView_scores.setAdapter(listAdapter);
+        }
 
 
         fragmentList_listView_scores.setOnItemClickListener((parent, view1, position, id) -> {
@@ -69,18 +65,8 @@ public class ListFragment extends Fragment {
     }
 
     private void findViews(View view) {
-        fragmentList_listView_scores = (ListView) view.findViewById(R.id.fragmentList_listView_scores);
+        fragmentList_listView_scores = view.findViewById(R.id.fragmentList_listView_scores);
     }
-
-    /**
-     * update the list after adding a new user
-     */
-    public void addScore(User user) {
-        myDB.addUser(user);
-        listAdapter.notifyDataSetChanged();
-
-    }
-
 
 
 }

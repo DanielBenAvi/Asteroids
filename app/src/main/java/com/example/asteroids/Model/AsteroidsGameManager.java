@@ -1,12 +1,14 @@
 package com.example.asteroids.Model;
 
 
+import android.util.Log;
+
 import com.example.asteroids.Model.GameObjects.Asteroid;
 import com.example.asteroids.Model.GameObjects.Fuel;
 import com.example.asteroids.Model.GameObjects.Object;
 import com.example.asteroids.Model.GameObjects.Ship;
-import com.example.asteroids.Other.App;
-
+import com.example.asteroids.Other.Constants;
+import com.google.gson.Gson;
 import java.util.Random;
 
 public class AsteroidsGameManager {
@@ -25,7 +27,7 @@ public class AsteroidsGameManager {
 
         // create the ship x - always in the middle
         ship = (Ship) new Ship().setX(logicBoard[0].length / 2);
-        ship.setLife(App.SHIP_LIFE);
+        ship.setLife(Constants.SHIP_LIFE);
     }
 
 
@@ -161,4 +163,24 @@ public class AsteroidsGameManager {
 
         return 0;
     }
+
+
+    public void addUser(User user) {
+        // add the user to the database
+        String json = MySP.getInstance().getString(Constants.SP_KEY, ""); // get the json string from the shared preferences
+        MyDB myDB = new Gson().fromJson(json, MyDB.class); // convert the json string to MyDB object
+        if (myDB == null) {
+            myDB = new MyDB();
+        }
+        myDB.addUser(user); // add the user to the database
+        Log.d("USERS",""+ myDB.getUsers().size());
+        // save the database to the shared preferences
+        String newJson = new Gson().toJson(myDB);
+        Log.d("TAG", newJson.toString());
+        MySP.getInstance().putString(Constants.SP_KEY, newJson);
+
+
+    }
+
+
 }

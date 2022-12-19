@@ -9,8 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.asteroids.Model.MyDB;
-import com.example.asteroids.Model.User;
 import com.example.asteroids.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -81,10 +79,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(@NonNull GoogleMap googleMap) {
         map = googleMap;
 
-        MyDB myDB = MyDB.getInstance();
-        for (User user : myDB.getUsers()) {
-            addMarker(new LatLng(user.getLatitude(), user.getLongitude()));
-        }
+
+//        for (User user : myDB.getUsers()) {
+//            addMarker(new LatLng(user.getLatitude(), user.getLongitude()));
+//        }
 
 
     }
