@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.asteroids.Activities.ScoreActivity;
 import com.example.asteroids.Adapters.ListAdapter;
 import com.example.asteroids.Interfaces.CallBack_userProtocol;
 import com.example.asteroids.Model.MyDB;
@@ -45,7 +46,6 @@ public class ListFragment extends Fragment {
         }
         ArrayList<User> tmp = myDB.getUsers();
 
-        // TODO: 16/12/2022 get the users from the database
         listAdapter = new ListAdapter(getContext(), R.layout.list_item, tmp);
         fragmentList_listView_scores.setAdapter(listAdapter);
 
@@ -80,5 +80,7 @@ public class ListFragment extends Fragment {
         listAdapter.notifyDataSetChanged();
 
     }
+
+
 
 }

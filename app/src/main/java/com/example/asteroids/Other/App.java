@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.example.asteroids.Model.MyDB;
 import com.example.asteroids.Model.MySharedPreferences;
+import com.example.asteroids.R;
 import com.google.gson.Gson;
 
 import es.dmoral.toasty.Toasty;
@@ -25,8 +26,6 @@ public class App extends Application {
 
 
     }
-
-
 
 
     /**
@@ -74,5 +73,46 @@ public class App extends Application {
         }
     }
 
+
+    public static int[] asteroids = {
+            R.drawable.new_asteroid_1,
+            R.drawable.new_asteroid_2,
+            R.drawable.new_asteroid_3,
+            R.drawable.new_asteroid_4,
+            R.drawable.new_asteroid_5,
+            R.drawable.new_asteroid_6,
+    };
+
+    /**
+     * Toasty
+     *
+     * @param context - context
+     * @param message - String
+     */
+    public static void toast(Context context, String message) {
+        Toasty.normal(context, message, Toasty.LENGTH_SHORT).show();
+    }
+
+
+    /**
+     * load the database from the shared preferences
+     *
+     * @param context the context
+     */
+    public static void loadDB(Context context) {
+        String fromJSON = MySharedPreferences.getInstance(context).getString(MySharedPreferences.KEY_USERS, ""); // get the string from the shared preferences
+        myDB = new Gson().fromJson(fromJSON, MyDB.class); // convert the string to a database
+
+    }
+
+    /**
+     * save the database to the shared preferences
+     *
+     * @param context the context
+     */
+    public static void updateDB(Context context) {
+        String gson = new Gson().toJson(myDB); // convert the database to a string
+        MySharedPreferences.getInstance(context).putString(MySharedPreferences.KEY_USERS, gson); // save the string to the shared preferences
+    }
 
 }

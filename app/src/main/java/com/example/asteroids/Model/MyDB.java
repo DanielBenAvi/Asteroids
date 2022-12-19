@@ -1,7 +1,5 @@
 package com.example.asteroids.Model;
 
-import com.example.asteroids.Other.App;
-
 import java.util.ArrayList;
 
 public class MyDB {
@@ -59,8 +57,6 @@ public class MyDB {
             tmp.add(users.get(i));
         }
         users = tmp;
-
-
     }
 
     /**

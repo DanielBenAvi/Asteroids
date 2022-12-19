@@ -9,6 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.asteroids.Model.MyDB;
+import com.example.asteroids.Model.User;
 import com.example.asteroids.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -47,14 +49,25 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
      */
     public void zoom(double latitude, double longitude) {
         LatLng randomPlace = new LatLng(latitude, longitude);
-        map.addMarker(new MarkerOptions().position(randomPlace));
+        addMarker(randomPlace);
 
         // Construct a CameraPosition focusing on Mountain View and animate the camera to that position.
         CameraPosition cameraPosition = new CameraPosition.Builder().target(randomPlace)      // Sets the center of the map to Mountain View
                 .zoom(17)                   // Sets the zoom
                 .build();                   // Creates a CameraPosition from the builder
         map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+    }
 
+
+    /**
+     * Add a marker to the map
+     *
+     * @param randomPlace the location of the marker (latitude, longitude)
+     */
+
+
+    private void addMarker(LatLng randomPlace) {
+        map.addMarker(new MarkerOptions().position(randomPlace));
     }
 
     /**
@@ -67,6 +80,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         map = googleMap;
-        // TODO: 12/08/2020 add markers or all best scores
+
+        MyDB myDB = MyDB.getInstance();
+        for (User user : myDB.getUsers()) {
+            addMarker(new LatLng(user.getLatitude(), user.getLongitude()));
+        }
+
+
     }
 }

@@ -1,34 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:background="#002F2F"
+    android:elevation="5dp"
+    android:fadingEdgeLength="10dp"
+    android:orientation="horizontal"
+    android:padding="5dp">
+
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/list_item_TXT_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="demo name"
-        android:textSize="16sp"
         android:fontFamily="casual"
-        android:textStyle="bold"
-        android:textColor="@color/white"
+        android:text="demo name"
         android:textAlignment="center"
-        />
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/list_item_TXT_score"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="demo score"
-        android:textSize="16sp"
         android:fontFamily="casual"
-        android:textStyle="bold"
-        android:textColor="@color/white"
+        android:text="demo score"
         android:textAlignment="center"
-        />
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
 
 </LinearLayout>

@@ -9,7 +9,7 @@ public class Ship extends Object {
     public Ship() {
         super();
         y = App.SHIP_Y;
-        image = R.drawable.ship;
+        image = R.drawable.new_spaceship;
     }
 
     public int getEXPLODE() {
