@@ -69,7 +69,6 @@ public class UserName extends AppCompatActivity {
 
     private void changeTOGame() {
 //        getCurrentLocation();
-        requestLocationPermission(new SimpleLocation(this));
         if (longitude == 0 || latitude == 0) { // if the location is not available
             Constants.toast(UserName.this, "Didn't get location yet - try again");
             return;
@@ -82,6 +81,12 @@ public class UserName extends AppCompatActivity {
         gameIntent.putExtra(AsteroidsMainActivity.KEY_LONGITUDE, longitude);
         startActivity(gameIntent);
         finish();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        requestLocationPermission(new SimpleLocation(this));
     }
 
     private void findViews() {
@@ -188,7 +193,6 @@ public class UserName extends AppCompatActivity {
     private void requestLocationPermission(SimpleLocation location) {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 101);
-            putLatLon(location);
         } else {
             putLatLon(location);
         }

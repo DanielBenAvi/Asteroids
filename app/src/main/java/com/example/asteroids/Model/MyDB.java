@@ -12,7 +12,6 @@ public class MyDB {
      * singleton constructor pattern
      */
     public MyDB() {
-
     }
 
 

@@ -52,6 +52,7 @@ public class AsteroidsMainActivity extends AppCompatActivity implements SensorEv
     private ShapeableImageView[][] board;
     private AsteroidsGameManager gameManager;
     private ShapeableImageView[] hearts;
+    private MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +93,7 @@ public class AsteroidsMainActivity extends AppCompatActivity implements SensorEv
     protected void onPause() {
         super.onPause();
         stopTimer();
+        mediaPlayer.release();
     }
 
 
@@ -252,6 +254,7 @@ public class AsteroidsMainActivity extends AppCompatActivity implements SensorEv
         Constants.gameScore = 0;
         Intent scoreIntent = new Intent(this, ScoreActivity.class);
         startActivity(scoreIntent);
+        mediaPlayer.release();
         finish();
     }
 
@@ -303,7 +306,7 @@ public class AsteroidsMainActivity extends AppCompatActivity implements SensorEv
      * Make sound
      */
     private void makeSound(int sound) {
-        MediaPlayer mediaPlayer = MediaPlayer.create(this, sound);
+        mediaPlayer = MediaPlayer.create(this, sound);
         mediaPlayer.setVolume(100, 100);
         mediaPlayer.start();
     }
