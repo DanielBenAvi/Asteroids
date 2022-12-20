@@ -86,10 +86,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         String json = MySP.getInstance().getString(Constants.SP_KEY, "");
         MyDB myDB = new Gson().fromJson(json, MyDB.class);
-//        for (User user : myDB.getUsers()) {
-//            LatLng randomPlace = new LatLng(user.getLatitude(), user.getLongitude());
-//            addMarker(randomPlace);
-//        }
+        for (User user : myDB.getUsers()) {
+            LatLng randomPlace = new LatLng(user.getLatitude(), user.getLongitude());
+            addMarker(randomPlace);
+        }
 
 
     }
