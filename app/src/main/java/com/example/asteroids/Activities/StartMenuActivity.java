@@ -82,7 +82,7 @@ public class StartMenuActivity extends AppCompatActivity {
                     Constants.gameSpeed = 1000;
                     Toasty.info(StartMenuActivity.this, "Slow", Toasty.LENGTH_SHORT).show();
                 } else {
-                    Constants.gameSpeed = 500;
+                    Constants.gameSpeed = 300;
                     Toasty.info(StartMenuActivity.this, "Fast", Toasty.LENGTH_SHORT).show();
                 }
             }

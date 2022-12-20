@@ -19,7 +19,6 @@ public class Constants extends Application {
     public static final int SHIP_LIFE = 3;
     public static final int VIBRATION_SPEED = 500;
     public static final float MOVEMENT_VALUE = 4.0f;
-    public static final String SP_KEY = "RECORDS";
     /**
      * Game Settings
      */

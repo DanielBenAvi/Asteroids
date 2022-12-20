@@ -38,10 +38,8 @@ public class ListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         findViews(view);
 
-        String json = MySP.getInstance().getString(Constants.SP_KEY, "");
-        Log.d("JSON", "onCreateView: " + json);
+        String json = MySP.getInstance().getString("db", "");
         MyDB myDB = new Gson().fromJson(json, MyDB.class);
-
 
         if (myDB != null) {
             listAdapter = new ListAdapter(getContext(), R.layout.list_item, myDB.getUsers());

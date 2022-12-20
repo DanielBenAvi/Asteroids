@@ -2,66 +2,36 @@ package com.example.asteroids.Model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-
-import com.example.asteroids.Other.Constants;
+import android.preference.PreferenceManager;
 
 
 public class MySP {
-    private static MySP mySharedPreferences = null;
-    private SharedPreferences sharedPreferences;
+    private static final String DB_FILE = "DB_FILE";
 
+    private static MySP instance = null;
+    private SharedPreferences preferences;
 
-    /**
-     * singleton constructor pattern
-     *
-     * @param context the context
-     */
     private MySP(Context context) {
-        sharedPreferences = context.getSharedPreferences(Constants.SP_KEY, Context.MODE_PRIVATE);
+        preferences = context.getSharedPreferences(DB_FILE, Context.MODE_PRIVATE);
     }
 
-    /**
-     * Gets instance.
-     *
-     * @return the instance
-     */
+    public static void init(Context context) {
+        if (instance == null) instance = new MySP(context);
+    }
+
     public static MySP getInstance() {
-        return mySharedPreferences;
-    }
-
-    /**
-     * Initialize the shared preferences
-     *
-     * @param context the context
-     */
-    public static void initSharedPreferences(Context context) {
-        if (mySharedPreferences == null) {
-            mySharedPreferences = new MySP(context);
-        }
+        return instance;
     }
 
 
-    /**
-     * put string to shared preferences
-     *
-     * @param key   the key
-     * @param value the value
-     */
     public void putString(String key, String value) {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
+        SharedPreferences.Editor editor = preferences.edit();
         editor.putString(key, value);
         editor.apply();
     }
 
-    /**
-     * get string from shared preferences
-     *
-     * @param key          the key
-     * @param defaultValue the default value
-     * @return the string
-     */
-    public String getString(String key, String defaultValue) {
-        return sharedPreferences.getString(key, defaultValue);
+    public String getString(String key, String defValue) {
+        return preferences.getString(key, defValue);
     }
 
 

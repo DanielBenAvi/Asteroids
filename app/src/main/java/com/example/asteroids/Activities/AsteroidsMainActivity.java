@@ -398,6 +398,8 @@ public class AsteroidsMainActivity extends AppCompatActivity implements SensorEv
         user.setLongitude(intent.getDoubleExtra(KEY_LONGITUDE, 0));
 
         gameManager.addUser(user);
+
+
     }
 
 

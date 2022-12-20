@@ -1,8 +1,6 @@
 package com.example.asteroids.Model;
 
 
-import android.util.Log;
-
 import com.example.asteroids.Model.GameObjects.Asteroid;
 import com.example.asteroids.Model.GameObjects.Fuel;
 import com.example.asteroids.Model.GameObjects.Object;
@@ -168,17 +166,18 @@ public class AsteroidsGameManager {
 
     public void addUser(User user) {
         // add the user to the database
-        String json = MySP.getInstance().getString(Constants.SP_KEY, ""); // get the json string from the shared preferences
+        String json = MySP.getInstance().getString("db", ""); // get the json string from the shared preferences
         MyDB myDB = new Gson().fromJson(json, MyDB.class); // convert the json string to MyDB object
         if (myDB == null) {
             myDB = new MyDB();
         }
+
+        // add the user to the database
         myDB.addUser(user); // add the user to the database
-        Log.d("USERS", "" + myDB.getUsers().size());
+
         // save the database to the shared preferences
         String newJson = new Gson().toJson(myDB);
-        Log.d("TAG", newJson.toString());
-        MySP.getInstance().putString(Constants.SP_KEY, newJson);
+        MySP.getInstance().putString("db", newJson);
 
 
     }
