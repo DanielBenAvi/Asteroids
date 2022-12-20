@@ -66,6 +66,4 @@ public class ListFragment extends Fragment {
     private void findViews(View view) {
         fragmentList_listView_scores = view.findViewById(R.id.fragmentList_listView_scores);
     }
-
-
 }

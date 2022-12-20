@@ -8,7 +8,7 @@ import com.example.asteroids.Other.Constants;
 
 public class MySP {
     private static MySP mySharedPreferences = null;
-    private final SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences;
 
 
     /**
