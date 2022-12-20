@@ -41,7 +41,6 @@ public class MySP {
     }
 
 
-
     /**
      * put string to shared preferences
      *

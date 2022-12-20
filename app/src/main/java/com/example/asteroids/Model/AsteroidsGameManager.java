@@ -9,6 +9,7 @@ import com.example.asteroids.Model.GameObjects.Object;
 import com.example.asteroids.Model.GameObjects.Ship;
 import com.example.asteroids.Other.Constants;
 import com.google.gson.Gson;
+
 import java.util.Random;
 
 public class AsteroidsGameManager {
@@ -173,7 +174,7 @@ public class AsteroidsGameManager {
             myDB = new MyDB();
         }
         myDB.addUser(user); // add the user to the database
-        Log.d("USERS",""+ myDB.getUsers().size());
+        Log.d("USERS", "" + myDB.getUsers().size());
         // save the database to the shared preferences
         String newJson = new Gson().toJson(myDB);
         Log.d("TAG", newJson.toString());

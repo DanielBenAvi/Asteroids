@@ -37,7 +37,6 @@ public class ListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         findViews(view);
 
-
         String json = MySP.getInstance().getString(Constants.SP_KEY, "");
         MyDB myDB = new Gson().fromJson(json, MyDB.class);
         if (myDB != null) {

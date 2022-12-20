@@ -18,10 +18,10 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:fontFamily="casual"
-        android:text="Add Score"
+        android:text="Add Name"
         android:textAlignment="center"
         android:textColor="@color/yellow"
-        android:textSize="56sp"
+        android:textSize="72sp"
         android:textStyle="bold" />
 
     <com.google.android.material.textfield.TextInputEditText
@@ -34,7 +34,7 @@
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
-        android:textSize="20sp"
+        android:textSize="40sp"
         android:textStyle="bold" />
 
     <com.google.android.material.button.MaterialButton
