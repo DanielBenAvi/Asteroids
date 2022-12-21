@@ -34,7 +34,7 @@
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
-        android:textSize="40sp"
+        android:textSize="24sp"
         android:textStyle="bold" />
 
     <com.google.android.material.button.MaterialButton

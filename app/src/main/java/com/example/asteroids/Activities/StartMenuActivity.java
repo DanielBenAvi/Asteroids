@@ -11,8 +11,6 @@ import com.example.asteroids.Other.Constants;
 import com.example.asteroids.R;
 import com.google.android.material.button.MaterialButton;
 
-import es.dmoral.toasty.Toasty;
-
 public class StartMenuActivity extends AppCompatActivity {
 
     MaterialButton startMenu_BTN_startGame;
@@ -24,7 +22,6 @@ public class StartMenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_menu);
-
         findViews();
         buttonsListeners();
     }
@@ -62,13 +59,9 @@ public class StartMenuActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // if the switch is on - the game will be with accelerometer
-                if (isChecked) {
-                    Constants.gameOption = Constants.GameOptions.ACCELEROMETER.value;
-                    Toasty.info(StartMenuActivity.this, "Accelerometer", Toasty.LENGTH_SHORT).show();
-                } else {
-                    Constants.gameOption = Constants.GameOptions.BUTTONS.value;
-                    Toasty.info(StartMenuActivity.this, "Buttons", Toasty.LENGTH_SHORT).show();
-                }
+                String mode = isChecked ? "Accelerometer" : "Buttons";
+                Constants.gameOption = isChecked ? Constants.GameOptions.ACCELEROMETER.value : Constants.GameOptions.BUTTONS.value;
+                Constants.toast(StartMenuActivity.this, "Game mode: " + mode);
             }
 
         });
@@ -77,14 +70,10 @@ public class StartMenuActivity extends AppCompatActivity {
         startMenu_SWITCH_gameSpeed.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // if the switch is on - the game will be with be faster
-                if (!isChecked) {
-                    Constants.gameSpeed = 1000;
-                    Toasty.info(StartMenuActivity.this, "Slow", Toasty.LENGTH_SHORT).show();
-                } else {
-                    Constants.gameSpeed = 300;
-                    Toasty.info(StartMenuActivity.this, "Fast", Toasty.LENGTH_SHORT).show();
-                }
+                // if the switch is on - the game will be with fast speed
+                String speed = isChecked ? "Fast" : "Slow";
+                Constants.gameSpeed = isChecked ? 300 : 1000;
+                Constants.toast(StartMenuActivity.this, speed);
             }
         });
 

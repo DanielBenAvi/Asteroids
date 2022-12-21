@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment;
 import com.example.asteroids.Model.MyDB;
 import com.example.asteroids.Model.MySP;
 import com.example.asteroids.Model.User;
-import com.example.asteroids.Other.Constants;
 import com.example.asteroids.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -20,8 +19,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.gson.Gson;
 
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
@@ -83,14 +82,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         map = googleMap;
+        map.setMapStyle(MapStyleOptions.loadRawResourceStyle(getContext(), R.raw.map_style));
+        MyDB myDB = MySP.getInstance().loadFromSP();
 
-        // TODO - get the user location from the DB
-//        String json = MySP.getInstance().getString("db", "");
-//        MyDB myDB = new Gson().fromJson(json, MyDB.class);
-//        for (User user : myDB.getUsers()) {
-//            LatLng randomPlace = new LatLng(user.getLatitude(), user.getLongitude());
-//            addMarker(randomPlace);
-//        }
+        for (User user : myDB.getUsers()) {
+            LatLng randomPlace = new LatLng(user.getLatitude(), user.getLongitude());
+            addMarker(randomPlace);
+        }
 
 
     }

@@ -28,8 +28,6 @@ import com.google.android.material.textview.MaterialTextView;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import es.dmoral.toasty.Toasty;
-
 public class AsteroidsMainActivity extends AppCompatActivity implements SensorEventListener {
 
     private SensorManager sensorManager;
@@ -186,8 +184,7 @@ public class AsteroidsMainActivity extends AppCompatActivity implements SensorEv
 
         Constants.difficulty = Constants.DIFFICULTY_DEFAULT;
 
-        // toast
-        toastMaker();
+        Constants.toast(this, "COLLISION!");
 
         // vibrate
         vibration();
@@ -326,13 +323,6 @@ public class AsteroidsMainActivity extends AppCompatActivity implements SensorEv
         }
     }
 
-    /**
-     * toast maker
-     */
-    private void toastMaker() {
-        Context context = getApplicationContext();
-        Toasty.error(context, "Collision").show();
-    }
 
     /**
      * Replace Glide
@@ -385,7 +375,6 @@ public class AsteroidsMainActivity extends AppCompatActivity implements SensorEv
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
     }
 
 

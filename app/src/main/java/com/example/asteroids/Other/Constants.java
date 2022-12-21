@@ -39,14 +39,6 @@ public class Constants extends Application {
     }
 
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
-
-    }
-
-
     /**
      * Enum for Game Options
      */

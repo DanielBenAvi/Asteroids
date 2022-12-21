@@ -6,7 +6,6 @@ import com.example.asteroids.Model.GameObjects.Fuel;
 import com.example.asteroids.Model.GameObjects.Object;
 import com.example.asteroids.Model.GameObjects.Ship;
 import com.example.asteroids.Other.Constants;
-import com.google.gson.Gson;
 
 import java.util.Random;
 
@@ -166,18 +165,13 @@ public class AsteroidsGameManager {
 
     public void addUser(User user) {
         // add the user to the database
-        String json = MySP.getInstance().getString("db", ""); // get the json string from the shared preferences
-        MyDB myDB = new Gson().fromJson(json, MyDB.class); // convert the json string to MyDB object
-        if (myDB == null) {
-            myDB = new MyDB();
-        }
+        MyDB myDB = MySP.getInstance().loadFromSP();
 
         // add the user to the database
         myDB.addUser(user); // add the user to the database
 
         // save the database to the shared preferences
-        String newJson = new Gson().toJson(myDB);
-        MySP.getInstance().putString("db", newJson);
+        MySP.getInstance().saveToSP(myDB);
 
 
     }
