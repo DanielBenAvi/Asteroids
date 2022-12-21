@@ -83,7 +83,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(@NonNull GoogleMap googleMap) {
         map = googleMap;
         map.setMapStyle(MapStyleOptions.loadRawResourceStyle(getContext(), R.raw.map_style));
-        MyDB myDB = MySP.getInstance().loadFromSP();
+        MyDB myDB = MyDB.loadFromSP();
 
         for (User user : myDB.getUsers()) {
             LatLng randomPlace = new LatLng(user.getLatitude(), user.getLongitude());

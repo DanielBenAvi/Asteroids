@@ -1,6 +1,8 @@
 package com.example.asteroids.Model;
 
 
+import android.util.Log;
+
 import com.example.asteroids.Model.GameObjects.Asteroid;
 import com.example.asteroids.Model.GameObjects.Object;
 import com.example.asteroids.Model.GameObjects.Ship;
@@ -153,12 +155,13 @@ public class AsteroidsGameManager {
 
     public void addUser(User user) {
         // add the user to the database
-        MyDB myDB = MySP.getInstance().loadFromSP();
+        MyDB myDB = MyDB.loadFromSP();
 
         // add the user to the database
         myDB.addUser(user); // add the user to the database
 
         // save the database to the shared preferences
+        Log.d("addUser", myDB.toString());
         MySP.getInstance().saveToSP(myDB);
 
 

@@ -1,6 +1,13 @@
 package com.example.asteroids.Model;
 
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MyDB {
 
@@ -51,5 +58,23 @@ public class MyDB {
      */
     public static void setUsers(ArrayList<User> users) {
         MyDB.users = users;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return Arrays.toString(users.toArray());
+    }
+
+    public static MyDB loadFromSP() {
+        String importGson = MySP.getInstance().getString("db", "");
+        Log.d("importGson", importGson);
+        MyDB db = new Gson().fromJson(importGson, MyDB.class);
+
+        if (db == null) {
+            db = new MyDB();
+        }
+
+        return db;
     }
 }

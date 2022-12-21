@@ -2,6 +2,7 @@ package com.example.asteroids.Model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -39,19 +40,6 @@ public class MySP {
     public void saveToSP(MyDB db) {
         String recordsString = new Gson().toJson(db);
         putString("db", recordsString);
-
-    }
-
-    public MyDB loadFromSP() {
-        String importGson = getString("db", "");
-
-        MyDB db = new Gson().fromJson(importGson, MyDB.class);
-
-        if (db == null) {
-            db = new MyDB();
-        }
-
-        return db;
     }
 
 

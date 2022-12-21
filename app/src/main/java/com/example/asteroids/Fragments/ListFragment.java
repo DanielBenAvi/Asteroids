@@ -1,6 +1,7 @@
 package com.example.asteroids.Fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,8 +36,8 @@ public class ListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         findViews(view);
 
-        MyDB myDB = MySP.getInstance().loadFromSP();
-
+        MyDB myDB = MyDB.loadFromSP();
+        Log.d("DB", myDB.toString());
         listAdapter = new ListAdapter(getContext(), R.layout.list_item, myDB.getUsers());
         fragmentList_listView_scores.setAdapter(listAdapter);
 
