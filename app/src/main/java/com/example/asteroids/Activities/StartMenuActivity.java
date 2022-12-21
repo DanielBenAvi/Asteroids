@@ -2,7 +2,6 @@ package com.example.asteroids.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.CompoundButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
@@ -55,26 +54,19 @@ public class StartMenuActivity extends AppCompatActivity {
         startMenu_BTN_scores.setOnClickListener(v -> openScoreActivity());
 
         // game options switch
-        startMenu_SWITCH_gameOptions.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // if the switch is on - the game will be with accelerometer
-                String mode = isChecked ? "Accelerometer" : "Buttons";
-                Constants.gameOption = isChecked ? Constants.GameOptions.ACCELEROMETER.value : Constants.GameOptions.BUTTONS.value;
-                Constants.toast(StartMenuActivity.this, "Game mode: " + mode);
-            }
-
+        startMenu_SWITCH_gameOptions.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            // if the switch is on - the game will be with accelerometer
+            String mode = isChecked ? "Accelerometer" : "Buttons";
+            Constants.gameOption = isChecked ? Constants.GameOptions.ACCELEROMETER.value : Constants.GameOptions.BUTTONS.value;
+            Constants.toast(StartMenuActivity.this, "Game mode: " + mode);
         });
 
         // game speed switch
-        startMenu_SWITCH_gameSpeed.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // if the switch is on - the game will be with fast speed
-                String speed = isChecked ? "Fast" : "Slow";
-                Constants.gameSpeed = isChecked ? 300 : 1000;
-                Constants.toast(StartMenuActivity.this, speed);
-            }
+        startMenu_SWITCH_gameSpeed.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            // if the switch is on - the game will be with fast speed
+            String speed = isChecked ? "Fast" : "Slow";
+            Constants.gameSpeed = isChecked ? 300 : 1000;
+            Constants.toast(StartMenuActivity.this, speed);
         });
 
     }

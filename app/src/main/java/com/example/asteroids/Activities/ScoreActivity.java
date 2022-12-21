@@ -19,15 +19,7 @@ public class ScoreActivity extends AppCompatActivity {
 
     MaterialButton scoreMenu_BTN_StartGame;
 
-    // score variables
-    private int score = 0;
-
-
-    private ListFragment listFragment;
     private MapFragment mapFragment;
-
-    private double latitude;
-    private double longitude;
 
 
     @Override
@@ -39,7 +31,7 @@ public class ScoreActivity extends AppCompatActivity {
         location = new SimpleLocation(this);
 
 
-        listFragment = new ListFragment(); // create a new list fragment
+        ListFragment listFragment = new ListFragment(); // create a new list fragment
         listFragment.setCallback(callBack_userProtocol); // set the callback
 
         mapFragment = new MapFragment(); // create a new map fragment

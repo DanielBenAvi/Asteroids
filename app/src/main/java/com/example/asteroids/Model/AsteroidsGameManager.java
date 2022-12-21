@@ -2,9 +2,9 @@ package com.example.asteroids.Model;
 
 
 import com.example.asteroids.Model.GameObjects.Asteroid;
-import com.example.asteroids.Model.GameObjects.Fuel;
 import com.example.asteroids.Model.GameObjects.Object;
 import com.example.asteroids.Model.GameObjects.Ship;
+import com.example.asteroids.Model.GameObjects.Star;
 import com.example.asteroids.Other.Constants;
 
 import java.util.Random;
@@ -35,9 +35,7 @@ public class AsteroidsGameManager {
     public void clearAsteroids() {
         for (int i = 0; i < logicBoard.length; i++) {
             for (int j = 0; j < logicBoard[i].length; j++) {
-                if (logicBoard[i][j] instanceof Asteroid) {
-                    logicBoard[i][j] = null;
-                }
+                if (logicBoard[i][j] instanceof Asteroid) logicBoard[i][j] = null;
             }
         }
     }
@@ -55,8 +53,6 @@ public class AsteroidsGameManager {
      */
     public void moveAsteroidsAndFuelsDown(int boardLength) {
         // move all asteroids down;
-        // if an asteroid reached the bottom of the board, remove it
-        // the check is done from the bottom to the top
         for (int i = logicBoard.length - 1; i >= 0; i--) {
             for (int j = logicBoard[i].length - 1; j >= 0; j--) {
                 if (logicBoard[i][j] instanceof Asteroid) {
@@ -72,7 +68,7 @@ public class AsteroidsGameManager {
                     logicBoard[i][j] = null;
                 }
                 // check if the ship is hit by an Fuel
-                else if (logicBoard[i][j] instanceof Fuel) {
+                else if (logicBoard[i][j] instanceof Star) {
                     // remove the asteroid from the board if it reached the bottom
                     if (i != boardLength - 1) {
                         // update the asteroid's y position
@@ -96,17 +92,11 @@ public class AsteroidsGameManager {
      * @param direction left (-1), right = (1)
      */
     public void moveShip(int direction) {
-        // remove the ship from the board
-//        logicBoard[ship.getY()][ship.getX()] = null;
-
         // move the ship
         int temp_x;
         temp_x = ship.getX() + direction;
-        if (temp_x > logicBoard[0].length - 1) {
-            temp_x = 0;
-        } else if (temp_x < 0) {
-            temp_x = logicBoard[0].length - 1;
-        }
+        if (temp_x > logicBoard[0].length - 1) temp_x = 0;
+        else if (temp_x < 0) temp_x = logicBoard[0].length - 1;
         ship.setX(temp_x);
     }
 
@@ -132,16 +122,14 @@ public class AsteroidsGameManager {
     public void addNewFuel() {
         int i = rand.nextInt(logicBoard[0].length);
         int j = 0;
-        Fuel tempFuel = (Fuel) new Fuel().setX(i).setY(j);
+        Star tempFuel = (Star) new Star().setX(i).setY(j);
         getLogicBoard()[j][i] = tempFuel;
     }
 
     public void clearFuel() {
         for (int i = 0; i < logicBoard.length; i++) {
             for (int j = 0; j < logicBoard[i].length; j++) {
-                if (logicBoard[i][j] instanceof Fuel) {
-                    logicBoard[i][j] = null;
-                }
+                if (logicBoard[i][j] instanceof Star) logicBoard[i][j] = null;
             }
         }
     }
@@ -154,7 +142,7 @@ public class AsteroidsGameManager {
         }
 
         // check if the ship is hit by an Fuel
-        else if (logicBoard[ship.getY()][ship.getX()] instanceof Fuel) {
+        else if (logicBoard[ship.getY()][ship.getX()] instanceof Star) {
             logicBoard[ship.getY()][ship.getX()] = null;
             return +1;
         }

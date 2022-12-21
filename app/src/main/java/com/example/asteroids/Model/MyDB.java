@@ -6,7 +6,6 @@ public class MyDB {
 
     private static ArrayList<User> users = new ArrayList<>();
 
-    
 
     /**
      * singleton constructor pattern
@@ -28,9 +27,7 @@ public class MyDB {
         users.sort((o1, o2) -> o2.getScore() - o1.getScore());
 
         int flag = users.size();
-        if (flag > 10) {
-            flag = 10;
-        }
+        if (flag > 10) flag = 10;
 
         ArrayList<User> tmp = new ArrayList<>();
         // get the top 10 users

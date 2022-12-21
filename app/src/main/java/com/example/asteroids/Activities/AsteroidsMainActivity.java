@@ -30,13 +30,9 @@ import java.util.TimerTask;
 
 public class AsteroidsMainActivity extends AppCompatActivity implements SensorEventListener {
 
-    private SensorManager sensorManager;
-    private Sensor sensor;
-
     public static final String KEY_NAME = "KEY_NAME";
     public static final String KEY_LONGITUDE = "KEY_LONGITUDE";
     public static final String KEY_LATITUDE = "KEY_LATITUDE";
-    private String userName = "";
 
 
     private MaterialButton asteroids_BTN_right;
@@ -61,13 +57,10 @@ public class AsteroidsMainActivity extends AppCompatActivity implements SensorEv
         findViews();
         buttons();
 
-        // get user name
-        userName = getIntent().getStringExtra(KEY_NAME);
-
 
         if (Constants.gameOption == Constants.GameOptions.ACCELEROMETER.value) {
-            sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-            sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+            SensorManager sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+            Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
             sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL);
         }
 
@@ -196,7 +189,7 @@ public class AsteroidsMainActivity extends AppCompatActivity implements SensorEv
         } else {
             makeSound(R.raw.game_over);
             Constants.gameOption = Constants.GameOptions.BUTTONS.value;
-            openScoreActivity(Constants.gameScore);
+            openScoreActivity();
         }
         // reset the board and clear the logic board from asteroids
         resetBoard();
@@ -243,10 +236,8 @@ public class AsteroidsMainActivity extends AppCompatActivity implements SensorEv
 
     /**
      * open the score activity
-     *
-     * @param s the score
      */
-    private void openScoreActivity(int s) {
+    private void openScoreActivity() {
         addUser();
         Constants.gameScore = 0;
         Intent scoreIntent = new Intent(this, ScoreActivity.class);
@@ -267,7 +258,6 @@ public class AsteroidsMainActivity extends AppCompatActivity implements SensorEv
      */
     private void startTimer() {
         timer = new Timer();
-        int gameSpeed = Constants.gameSpeed;
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {

@@ -1,7 +1,5 @@
 package com.example.asteroids.Model;
 
-import androidx.annotation.NonNull;
-
 public class User {
     private String name = "";
     private int score = 0;
@@ -46,8 +44,6 @@ public class User {
         this.longitude = longitude;
         return this;
     }
-
-
 
 
 }

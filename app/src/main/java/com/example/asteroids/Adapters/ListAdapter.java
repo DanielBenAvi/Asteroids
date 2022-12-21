@@ -43,8 +43,8 @@ public class ListAdapter extends ArrayAdapter<User> {
         User user = getItem(position);
 
         if (user != null) {
-            MaterialTextView fragmentList_textView_name = (MaterialTextView) v.findViewById(R.id.list_item_TXT_name);
-            MaterialTextView fragmentList_textView_score = (MaterialTextView) v.findViewById(R.id.list_item_TXT_score);
+            MaterialTextView fragmentList_textView_name = v.findViewById(R.id.list_item_TXT_name);
+            MaterialTextView fragmentList_textView_score = v.findViewById(R.id.list_item_TXT_score);
 
             if (fragmentList_textView_name != null) {
                 fragmentList_textView_name.setText(user.getName());
