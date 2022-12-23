@@ -1,17 +1,38 @@
 # Asteroids
 
 ## game instructions
-You are a space-ship and you need to avoid the asteroids, you have only 3 lives or the ship will be distroyed.
+You are an Alien-ship and you need to avoid the Asteroids, you have only 3 lives or the ship will be distroyed.
+If you collect the stars you get points.
+
 
 
 ## How to play
-Move left or right
+Choose game options:
+1. Buttons.
 
 
-## Demo video
+https://user-images.githubusercontent.com/94143762/209298257-3bf5aafb-07f5-4341-ae48-bfc72af93449.mp4
 
 
-https://user-images.githubusercontent.com/94143762/204597434-531733bb-b74b-4867-a98f-99f5b10516ff.mp4
+ 
+2. Accelerometer.
+
+
+
+https://user-images.githubusercontent.com/94143762/209298055-b71bb112-0cfe-4e63-9199-23ff49018008.mp4
+
+
+
+
+
+Choose game speed:
+1. slow.
+2. fast.
+
+
+https://user-images.githubusercontent.com/94143762/209298312-80e58c43-e17c-4f2f-b142-6060ba712dfc.mp4
+
+
 
 
 
