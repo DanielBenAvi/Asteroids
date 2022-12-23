@@ -14,9 +14,6 @@ public class MyDB {
     private static ArrayList<User> users = new ArrayList<>();
 
 
-    /**
-     * singleton constructor pattern
-     */
     public MyDB() {
     }
 
