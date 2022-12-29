@@ -148,7 +148,6 @@ public class AsteroidsGameManager {
             logicBoard[ship.getY()][ship.getX()] = null;
             return +1;
         }
-
         return 0;
     }
 
@@ -163,9 +162,5 @@ public class AsteroidsGameManager {
         // save the database to the shared preferences
         Log.d("addUser", myDB.toString());
         MySP.getInstance().saveToSP(myDB);
-
-
     }
-
-
 }
